@@ -1,0 +1,5 @@
+.todo__tasks__item {
+    border-bottom: 1px dotted #000000;
+    width: calc(100% - 40px);
+    margin: 10px 0;
+}

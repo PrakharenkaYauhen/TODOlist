@@ -1,0 +1,66 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+        "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+        sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-image: url('./natures-temples.jpg');
+}
+
+#root {
+    position: relative;
+    opacity: 0.9;
+    background: #ffffff;
+    border-top: 1px solid #ffffff;
+    border-bottom: 1px solid #ffffff;
+    min-height: calc(100vh - 2px);
+}
+
+.todo {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.todo__tasks-add {
+    width: 50%;
+    margin-left: 5%;
+}
+
+.todo__table {margin: 20px 0 0;
+    border: 1px solid rgba(221, 221, 221, 1);
+    border-collapse: collapse;
+    box-shadow: 0 0 10px 5px rgba(221, 221, 221, 1);
+}
+
+.todo__table__data {
+    border: 1px solid rgba(221, 221, 221, 1);
+    padding: 10px;
+    text-align: center;
+    width: 50px;
+    height: 30px;
+}
+
+.todo__table__data_header {
+    background: paleturquoise;
+}
+
+.todo__table__data_cells {
+    cursor: pointer;
+}
+
+.todo__table__data_choisen {
+    background: bisque;
+}
+
+.todo__table__data_tasks {
+    background: LightCyan;
+}
+
+.todo__header1,
+.todo__header2,
+.todo__header3 {
+    text-align: center;
+}

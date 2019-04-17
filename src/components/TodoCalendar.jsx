@@ -1,0 +1,143 @@
+import React from 'react';
+import { ModalWindowContainer } from './ModalWindowContainer.jsx';
+import { TableCellsVision } from './TableCellsVision.jsx';
+import { TableCellsVisionCurrentDate } from './TableCellsVisionCurrentDate.jsx';
+import { TableCellsVisionDatesWithTasks } from './TableCellsVisionDatesWithTasks.jsx';
+
+// TodoCalendar Component
+
+function TodoCalendar(props) {
+    let currentDay = props.currentDay,
+        currentDate = props.currentDate,
+        cells = props.cells,
+        modalCalendarVision = props.modalCalendarVision,
+        modalTextariaValue = props.modalTextariaValue,
+        currentLocalStorageKey = props.currentLocalStorageKey,
+        todaysTasks = props.todaysTasks;
+
+    let currentYear = currentDay.getFullYear(),
+        currentMonth = currentDay.getMonth(),
+        firstDayOfTheMonth = new Date(currentYear, currentMonth, 1).getDay(),
+        daysInThisMonth = 32 - new Date(currentYear, currentMonth, 32).getDate(),
+        week = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        monthes = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+    let datesWistTasks = [];
+
+    for (let key in localStorage) {
+        if (localStorage.getItem(key)) {
+            if (currentLocalStorageKey.substr(0, 6) === key.substr(0, 6)) {
+                datesWistTasks.push(+key.split(' ')[2]);
+            }
+        }
+    }
+
+    // splitting an array on parts
+    let chunk = (arr, len) => {
+        var chunks = [],
+            i = 0,
+            n = arr.length;
+
+        while (i < n) {
+            chunks.push(arr.slice(i, i += len));
+        }
+
+        return chunks;
+    }
+
+    let nameCalendarDays = () => {
+        let rowOfDays = []
+        for (let i = 0; i < 7; i++) {
+            rowOfDays.push(<TableCellsVision content={week[i]} key={i} />);
+        }
+        return <tr>{rowOfDays}</tr>;
+    }
+
+    let filledCalendarDays = () => {
+        let table = [];
+        for (let i = 0; i < 42; i++) {
+            cells[i] = <TableCellsVision onClick={props.onClickCell} content={null} key={i} />
+        }
+        for (let i = 0; i < daysInThisMonth; i++) {
+
+            if (firstDayOfTheMonth !== 0) {
+                if (datesWistTasks.some(number => number === (1 + i))) {
+                    cells[firstDayOfTheMonth - 1 + i] = <TableCellsVisionDatesWithTasks
+                        onClick={props.onClickCell}
+                        content={i + 1}
+                        key={firstDayOfTheMonth - 1 + i} />;
+                } else {
+                    cells[firstDayOfTheMonth - 1 + i] = <TableCellsVision
+                        onClick={props.onClickCell}
+                        content={i + 1}
+                        key={firstDayOfTheMonth - 1 + i} />;
+                }
+            } else {
+                if (datesWistTasks.some(number => number === (1 + i))) {
+                    cells[6 + i] = <TableCellsVisionDatesWithTasks
+                        onClick={props.onClickCell}
+                        content={i + 1}
+                        key={6 + i} />;
+                } else {
+                    cells[6 + i] = <TableCellsVision
+                        onClick={props.onClickCell}
+                        content={i + 1}
+                        key={6 + i} />;
+                }
+            }
+
+            if (firstDayOfTheMonth !== 0) {
+                cells[firstDayOfTheMonth - 1 + currentDate - 1] = <TableCellsVisionCurrentDate
+                    currentDate={currentDate}
+                    onClick={props.onClickCell}
+                    onDoubleClick={props.onDoubleClickOpenModal}
+                    key={firstDayOfTheMonth - 1 + currentDate - 1} />;
+            } else {
+                cells[6 + firstDayOfTheMonth + currentDate - 1] = <TableCellsVisionCurrentDate
+                    currentDate={currentDate}
+                    onClick={props.onClickCell}
+                    onDoubleClick={props.onDoubleClickOpenModal}
+                    key={6 + firstDayOfTheMonth + currentDate - 1} />;
+            }
+
+        }
+        let raws = chunk(cells, 7);
+
+        for (let i = 0; i < raws.length; i++) {
+            table.push(<tr key={i}>{raws[i]}</tr>)
+        }
+
+        return table;
+    }
+
+    return (
+        <div className='todo__tasks-add'>
+            <h2 className='todo__header2'>Calendar</h2>
+            <table className='todo__table'>
+                <thead>
+                    <tr>
+                        <th onClick={props.onClick} className='todo__table__data todo__table__data_header' >left</th>
+                        <th onClick={props.onClick} className='todo__table__data todo__table__data_header' >l</th>
+                        <th className='todo__table__data todo__table__data_header' colSpan='3'>{monthes[currentMonth] + ' ' + currentYear}</th>
+                        <th onClick={props.onClick} className='todo__table__data todo__table__data_header' >r</th>
+                        <th onClick={props.onClick} className='todo__table__data todo__table__data_header'>right</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {nameCalendarDays()}
+                    {filledCalendarDays()}
+                </tbody>
+            </table>
+
+            <ModalWindowContainer modalCalendarVision={modalCalendarVision}
+                modalTextariaValue={modalTextariaValue}
+                currentLocalStorageKey={currentLocalStorageKey}
+                todaysTasks={todaysTasks}
+                onDoubleClickCloseModal={(e) => props.onDoubleClickCloseModal(e)}
+                onChange={(e) => props.onChange(e)}
+                onReset={(e) => props.onReset(e)} />
+        </div>
+    )
+}
+
+export { TodoCalendar };

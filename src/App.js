@@ -15,6 +15,7 @@ import { TaskSearchContainer } from './components/TaskSearchContainer.jsx';
 class TodoList extends Component {
     constructor(props) {
         super(props);
+        // TODO: date / day? (dayOfMonth)
         this.state = {
             currentDay: new Date(),
             currentDate: new Date().getDate(),
@@ -40,6 +41,7 @@ class TodoList extends Component {
         this.setState({
             searchInputValue: e.target.value
         });
+        // TODO: Very dangerous. Why? (events unsubscribe)
         document.onmousedown = (e) => {
             if (!e.target.classList.contains("search__item")) {
                 this.setState({
@@ -49,6 +51,7 @@ class TodoList extends Component {
         };
     }
 
+    // TODO: Could we simplify open and close methods?
     modalCalendarOpenClick() {
         this.setState({ modalCalendarVision: true });
     }
@@ -58,6 +61,7 @@ class TodoList extends Component {
     }
 
     handleChangeTextariaValue(e) {
+        // TODO: Could we simplify this?
         if(e) {
             this.setState({
                 modalTextariaValue: e.target.value
@@ -67,15 +71,17 @@ class TodoList extends Component {
                 modalTextariaValue: ''
             });
         }
-       
+
     }
 
     handleResetTextariaValue(e) {
+        // TODO: There is a good manner to write the same code constructions in the same way (see str:59)
         this.setState({
             modalTextariaValue: ''
         });
     }
 
+    // TODO: Function is coupled with data
     handleChangeYearMonthClick(e) {
         let currentDay = this.state.currentDay;
 
@@ -102,6 +108,7 @@ class TodoList extends Component {
     }
 
     onClickCell(e) {
+        // TODO: maybe we could use something more reliable then innerHTML?
         this.setState({
             currentDate: +e.target.innerHTML,
         });

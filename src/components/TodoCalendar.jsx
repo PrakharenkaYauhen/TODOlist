@@ -7,15 +7,9 @@ import { TableCellsVisionDatesWithTasks } from './TableCellsVisionDatesWithTasks
 // TodoCalendar Component
 
 function TodoCalendar(props) {
-    let currentDate = props.currentDate,
-        currentDayInTheCalendar = props.currentDayInTheCalendar,
-        cells = props.cells,
-        modalCalendarVision = props.modalCalendarVision,
-        modalTextariaValue = props.modalTextariaValue,
-        currentLocalStorageKey = props.currentLocalStorageKey,
-        todaysTasks = props.todaysTasks;
+    const {currentDate, currentDayInTheCalendar, cells, modalCalendarVision, modalTextariaValue, currentLocalStorageKey, todaysTasks} = props;
 
-    let currentYear = currentDate.getFullYear(),
+    const currentYear = currentDate.getFullYear(),
         currentMonth = currentDate.getMonth(),
         firstDayOfTheMonth = new Date(currentYear, currentMonth, 1).getDay(),
         daysInThisMonth = 32 - new Date(currentYear, currentMonth, 32).getDate(),

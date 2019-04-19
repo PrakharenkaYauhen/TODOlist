@@ -48,7 +48,6 @@ class TodoList extends Component {
     }
 
     handleDateSearchInput(data) {
-        console.log(data);
         this.setState({
             currentDate: new Date(data),
             currentDayInTheCalendar: new Date(data).getDate(),
@@ -57,7 +56,6 @@ class TodoList extends Component {
     }
 
     modalCalendarOpenCloseClick() {
-        console.log(1);
         this.setState({ modalCalendarVision: this.state.modalCalendarVision ? false : true });
     }
 

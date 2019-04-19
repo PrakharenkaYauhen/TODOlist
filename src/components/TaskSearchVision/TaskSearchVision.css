@@ -1,6 +1,6 @@
 .search {
-    width: 100%;
-    margin: 15px 0;
+    width: 90%;
+    margin: 15px auto;
     margin-left: 5%;
 }
 
@@ -16,7 +16,7 @@
 
 .search__input {
     margin-left: 10px;
-    width: calc(100% - 220px);
+    width: calc(100% - 160px);
     border-radius: 5px;
     padding-left: 10px;
 }
@@ -30,7 +30,7 @@
 
 .search__items {
     position: absolute;
-    width: calc(100% - 163px);
+    width: calc(100% - 162px);
     background: #ffffff;
     border: 1px solid lightgrey;
     border-top: none;

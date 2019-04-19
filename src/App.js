@@ -40,6 +40,7 @@ class TodoList extends Component {
         this.setState({
             searchInputValue: e.target.value
         });
+        // addEventListener !!!!!!!!!!!!!!!!!!!!!!!!!!          CompDiDMount
         document.onmousedown = (e) => {
             if (!e.target.classList.contains("search__item")) {
                 this.setState({
@@ -170,5 +171,5 @@ class TodoList extends Component {
     }
 }
 
-export default <TodoList />;
+export default TodoList ;
 

@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TaskSearchVision tests Our input shoud work when it is changed 1`] = `
+<div
+  className="search"
+>
+  <label
+    className="search__label"
+  >
+    <span
+      className="search__span"
+    >
+      Enter a serching task:
+    </span>
+    <input
+      className="search__input"
+      type="search"
+      value="a"
+    />
+    <div
+      className="search__items"
+    >
+      <ul
+        className="search__list"
+      >
+        <li
+          className="search__item"
+        >
+          a
+        </li>
+        <li
+          className="search__item"
+        >
+          aa
+        </li>
+        <li
+          className="search__item"
+        >
+          aaa
+        </li>
+      </ul>
+    </div>
+  </label>
+</div>
+`;

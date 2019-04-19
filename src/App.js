@@ -15,6 +15,7 @@ import { TaskSearchContainer } from './components/TaskSearchContainer.jsx';
 class TodoList extends Component {
     constructor(props) {
         super(props);
+        // TODO: date / day? (dayOfMonth)
         this.state = {
             currentDate: new Date(),
             currentDayInTheCalendar: new Date().getDate(),
@@ -100,7 +101,7 @@ class TodoList extends Component {
 
     onClickCell(e) {
         this.setState({
-            currentDayInTheCalendar: +e.target.innerHTML,
+            currentDayInTheCalendar: +e.target.currentDate,
         });
     }
 

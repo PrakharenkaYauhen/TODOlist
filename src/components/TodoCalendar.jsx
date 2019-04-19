@@ -7,16 +7,16 @@ import { TableCellsVisionDatesWithTasks } from './TableCellsVisionDatesWithTasks
 // TodoCalendar Component
 
 function TodoCalendar(props) {
-    let currentDay = props.currentDay,
-        currentDate = props.currentDate,
+    let currentDate = props.currentDate,
+        currentDayInTheCalendar = props.currentDayInTheCalendar,
         cells = props.cells,
         modalCalendarVision = props.modalCalendarVision,
         modalTextariaValue = props.modalTextariaValue,
         currentLocalStorageKey = props.currentLocalStorageKey,
         todaysTasks = props.todaysTasks;
 
-    let currentYear = currentDay.getFullYear(),
-        currentMonth = currentDay.getMonth(),
+    let currentYear = currentDate.getFullYear(),
+        currentMonth = currentDate.getMonth(),
         firstDayOfTheMonth = new Date(currentYear, currentMonth, 1).getDay(),
         daysInThisMonth = 32 - new Date(currentYear, currentMonth, 32).getDate(),
         week = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
@@ -87,17 +87,17 @@ function TodoCalendar(props) {
             }
 
             if (firstDayOfTheMonth !== 0) {
-                cells[firstDayOfTheMonth - 1 + currentDate - 1] = <TableCellsVisionCurrentDate
-                    currentDate={currentDate}
+                cells[firstDayOfTheMonth - 1 + currentDayInTheCalendar - 1] = <TableCellsVisionCurrentDate
+                    currentDayInTheCalendar={currentDayInTheCalendar}
                     onClick={props.onClickCell}
-                    onDoubleClick={props.onDoubleClickOpenModal}
-                    key={firstDayOfTheMonth - 1 + currentDate - 1} />;
+                    onDoubleClickOpenModal={props.modalCalendarOpenCloseClick}
+                    key={firstDayOfTheMonth - 1 + currentDayInTheCalendar - 1} />;
             } else {
-                cells[6 + firstDayOfTheMonth + currentDate - 1] = <TableCellsVisionCurrentDate
-                    currentDate={currentDate}
+                cells[6 + firstDayOfTheMonth + currentDayInTheCalendar - 1] = <TableCellsVisionCurrentDate
+                    currentDayInTheCalendar={currentDayInTheCalendar}
                     onClick={props.onClickCell}
-                    onDoubleClick={props.onDoubleClickOpenModal}
-                    key={6 + firstDayOfTheMonth + currentDate - 1} />;
+                    onDoubleClickOpenModal={props.modalCalendarOpenCloseClick}
+                    key={6 + firstDayOfTheMonth + currentDayInTheCalendar - 1} />;
             }
 
         }
@@ -110,17 +110,21 @@ function TodoCalendar(props) {
         return table;
     }
 
+    let handleChangeYearMonthClick = (e) => {
+        props.onClick(e.target.textContent);
+    }
+
     return (
         <div className='todo__tasks-add'>
             <h2 className='todo__header2'>Calendar</h2>
             <table className='todo__table'>
                 <thead>
                     <tr>
-                        <th onClick={props.onClick} className='todo__table__data todo__table__data_header' >left</th>
-                        <th onClick={props.onClick} className='todo__table__data todo__table__data_header' >l</th>
+                        <th onClick={handleChangeYearMonthClick} className='todo__table__data todo__table__data_header' >left</th>
+                        <th onClick={handleChangeYearMonthClick} className='todo__table__data todo__table__data_header' >l</th>
                         <th className='todo__table__data todo__table__data_header' colSpan='3'>{monthes[currentMonth] + ' ' + currentYear}</th>
-                        <th onClick={props.onClick} className='todo__table__data todo__table__data_header' >r</th>
-                        <th onClick={props.onClick} className='todo__table__data todo__table__data_header'>right</th>
+                        <th onClick={handleChangeYearMonthClick} className='todo__table__data todo__table__data_header' >r</th>
+                        <th onClick={handleChangeYearMonthClick} className='todo__table__data todo__table__data_header'>right</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -133,7 +137,7 @@ function TodoCalendar(props) {
                 modalTextariaValue={modalTextariaValue}
                 currentLocalStorageKey={currentLocalStorageKey}
                 todaysTasks={todaysTasks}
-                onDoubleClickCloseModal={(e) => props.onDoubleClickCloseModal(e)}
+                onClickCloseModal={(e) => props.modalCalendarOpenCloseClick(e)}
                 onChange={(e) => props.onChange(e)}
                 onReset={(e) => props.onReset(e)} />
         </div>

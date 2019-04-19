@@ -24,7 +24,7 @@ function ModalWindowContainer(props) {
                     modalTextariaValue={props.modalTextariaValue}
                     onChange={(e) => props.onChange(e)}
                     addTask={addTask}
-                    onDoubleClickCloseModal={(e) => props.onDoubleClickCloseModal(e)} />}
+                    onClickCloseModal={(e) => props.onClickCloseModal(e)} />}
         </>
     );
 }

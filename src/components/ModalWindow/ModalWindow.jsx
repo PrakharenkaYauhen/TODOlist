@@ -20,7 +20,7 @@ function ModalWindow(props) {
                 add a new task
         </button>
             <button className='modal__button_exit'
-                onClick={props.onDoubleClickCloseModal}>
+                onClick={props.onClickCloseModal}>
                 x
         </button>
         </div>

@@ -16,8 +16,8 @@ class TodoList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            currentDay: new Date(),
-            currentDate: new Date().getDate(),
+            currentDate: new Date(),
+            currentDayInTheCalendar: new Date().getDate(),
             cells: [],
 
             modalCalendarVision: false,
@@ -27,97 +27,95 @@ class TodoList extends Component {
         }
     }
 
+    componentDidMount() {
+
+        this.handleChangeSearchInput = (e) => {
+            this.setState({
+                searchInputValue: e.target.value
+            });
+            // addEventListener !!!!!!!!!!!!!!!!!!!!!!!!!!          CompDiDMount
+            let clickOutsideSearchInput = e => {
+                if (!e.target.classList.contains("search__item")) {
+                    this.setState({
+                        searchInputValue: ''
+                    });
+                }
+                document.removeEventListener('mousedown', clickOutsideSearchInput);
+            }
+            document.addEventListener('mousedown', clickOutsideSearchInput);
+        }
+
+    }
+
     handleDateSearchInput(data) {
         console.log(data);
         this.setState({
-            currentDay: new Date(data),
-            currentDate: new Date(data).getDate(),
+            currentDate: new Date(data),
+            currentDayInTheCalendar: new Date(data).getDate(),
             searchInputValue: '',
         });
     }
 
-    handleChangeSearchInput(e) {
-        this.setState({
-            searchInputValue: e.target.value
-        });
-        // addEventListener !!!!!!!!!!!!!!!!!!!!!!!!!!          CompDiDMount
-        document.onmousedown = (e) => {
-            if (!e.target.classList.contains("search__item")) {
-                this.setState({
-                    searchInputValue: ''
-                });
-            }
-        };
-    }
-
-    modalCalendarOpenClick() {
-        this.setState({ modalCalendarVision: true });
-    }
-
-    modalCalendarCloseClick() {
-        this.setState({ modalCalendarVision: false });
+    modalCalendarOpenCloseClick() {
+        console.log(1);
+        this.setState({ modalCalendarVision: this.state.modalCalendarVision ? false : true });
     }
 
     handleChangeTextariaValue(e) {
-        if(e) {
-            this.setState({
-                modalTextariaValue: e.target.value
-            });
-        } else {
-            this.setState({
-                modalTextariaValue: ''
-            });
-        }
-       
+        this.setState({ modalTextariaValue: e ? e.target.value : '' });
     }
 
     handleResetTextariaValue(e) {
-        this.setState({
-            modalTextariaValue: ''
-        });
+        this.setState({ modalTextariaValue: '' });
     }
 
-    handleChangeYearMonthClick(e) {
-        let currentDay = this.state.currentDay;
+    handleChangeYearMonthClick(data) {
+        let currentDate = this.state.currentDate;
 
-        if (e.target.innerHTML === 'left') {
-            this.setState({
-                currentDay: new Date(currentDay.getFullYear() - 1, currentDay.getMonth())
-            });
-        } else if (e.target.innerHTML === 'right') {
-            this.setState({
-                currentDay: new Date(currentDay.getFullYear() + 1, currentDay.getMonth())
-            });
-        } else if (e.target.innerHTML === 'l') {
-            this.setState({
-                currentDay: new Date(currentDay.getFullYear(), currentDay.getMonth() - 1)
-            });
-        } else if (e.target.innerHTML === 'r') {
-            this.setState({
-                currentDay: new Date(currentDay.getFullYear(), currentDay.getMonth() + 1)
-            });
+        switch (data) {
+            case 'left':
+                this.setState({
+                    currentDate: new Date(currentDate.getFullYear() - 1, currentDate.getMonth())
+                });
+                break;
+            case 'right':
+                this.setState({
+                    currentDate: new Date(currentDate.getFullYear() + 1, currentDate.getMonth())
+                });
+                break;
+            case 'l':
+                this.setState({
+                    currentDate: new Date(currentDate.getFullYear(), currentDate.getMonth() - 1)
+                });
+                break;
+            default:
+                this.setState({
+                    currentDate: new Date(currentDate.getFullYear(), currentDate.getMonth() + 1)
+                });
+                break;
         }
+
         this.setState({
-            currentDate: 1,
+            currentDayInTheCalendar: 1,
         });
     }
 
     onClickCell(e) {
         this.setState({
-            currentDate: +e.target.innerHTML,
+            currentDayInTheCalendar: +e.target.innerHTML,
         });
     }
 
     render() {
-        let currentDay = this.state.currentDay,
-            currentYear = currentDay.getFullYear(),
-            currentMonth = currentDay.getMonth();
-        const currentDate = this.state.currentDate;
+        let currentDate = this.state.currentDate,
+            currentYear = currentDate.getFullYear(),
+            currentMonth = currentDate.getMonth();
+        const currentDayInTheCalendar = this.state.currentDayInTheCalendar;
         const cells = this.state.cells;
         const modalCalendarVision = this.state.modalCalendarVision;
         const modalTextariaValue = this.state.modalTextariaValue;
 
-        let currentLocalStorageKey = currentYear + ' ' + currentMonth + ' ' + currentDate;
+        let currentLocalStorageKey = currentYear + ' ' + currentMonth + ' ' + currentDayInTheCalendar;
         // let currentDonesLocalStorageKey = currentYear + ' ' + currentMonth + ' ' + currentDate + ' done';
         let todaysTasks = JSON.parse(localStorage.getItem(currentLocalStorageKey));
         let donesTasks = JSON.parse(localStorage.getItem(`${currentLocalStorageKey} done`));
@@ -129,17 +127,16 @@ class TodoList extends Component {
                 <h1 className='todo__header1'>To-do list</h1>
                 <div className='todo'>
                     <TodoCalendar
-                        currentDay={currentDay}
                         currentDate={currentDate}
+                        currentDayInTheCalendar={currentDayInTheCalendar}
                         cells={cells}
                         modalCalendarVision={modalCalendarVision}
                         modalTextariaValue={modalTextariaValue}
                         currentLocalStorageKey={currentLocalStorageKey}
                         todaysTasks={todaysTasks}
-                        onClick={(e) => this.handleChangeYearMonthClick(e)}
+                        onClick={(buttonChangeYearMonth, data) => this.handleChangeYearMonthClick(buttonChangeYearMonth, data)}
                         onClickCell={(e) => this.onClickCell(e)}
-                        onDoubleClickOpenModal={(e) => this.modalCalendarOpenClick(e)}
-                        onDoubleClickCloseModal={(e) => this.modalCalendarCloseClick(e)}
+                        modalCalendarOpenCloseClick={(e) => this.modalCalendarOpenCloseClick(e)}
                         onChange={(e) => this.handleChangeTextariaValue(e)}
                         onReset={(e) => this.handleResetTextariaValue(e)} />
                     <WeatherContainer />
@@ -160,8 +157,7 @@ class TodoList extends Component {
                                 modalTextariaValue={modalTextariaValue}
                                 currentLocalStorageKey={currentLocalStorageKey}
                                 todaysTasks={todaysTasks}
-                                onDoubleClickOpenModal={(e) => this.modalCalendarOpenClick(e)}
-                                onDoubleClickCloseModal={(e) => this.modalCalendarCloseClick(e)}
+                                modalCalendarOpenCloseClick={(e) => this.modalCalendarOpenCloseClick(e)}
                                 onChange={(e) => this.handleChangeTextariaValue(e)}
                                 onReset={(e) => this.handleResetTextariaValue(e)} />
                         )}
@@ -171,5 +167,5 @@ class TodoList extends Component {
     }
 }
 
-export default TodoList ;
+export default TodoList;
 
